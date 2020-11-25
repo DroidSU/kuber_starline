@@ -49,22 +49,22 @@ class _HomeScreenState extends State<HomeScreen> {
         Align(
           alignment: Alignment.topRight,
           child: Container(
-            margin: EdgeInsets.fromLTRB(10, 40, 60, 0),
+            margin: EdgeInsets.fromLTRB(10, 40, 45, 0),
             child: Icon(
               Icons.account_balance_wallet_rounded,
               color: Colors.white,
-              size: 26,
+              size: 22,
             ),
           ),
         ),
         Align(
           alignment: Alignment.topRight,
           child: Container(
-            margin: EdgeInsets.fromLTRB(10, 40, 20, 0),
+            margin: EdgeInsets.fromLTRB(10, 40, 10, 0),
             child: Icon(
               Icons.notification_important_rounded,
               color: Colors.white,
-              size: 26,
+              size: 22,
             ),
           ),
         ),
@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         Container(
-          margin: EdgeInsets.fromLTRB(0, 140, 0, 0),
+          margin: EdgeInsets.fromLTRB(0, 130, 0, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -152,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Container(
                 alignment: Alignment.center,
-                margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -165,15 +165,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 15,
                     ),
                     Text(
-                      '7890127174',
+                      '**********',
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ],
                 ),
               ),
-              Container(
-                height: MediaQuery.of(context).size.height / 2,
-                margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+              Expanded(
                 child: buildListOfGames(),
               )
             ],
@@ -189,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
       itemCount: 10,
       itemBuilder: (BuildContext buildcontext, int index) {
         return Card(
-          margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
+          margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
           color: Colors.white,
           shadowColor: Colors.white,
           elevation: 10,
@@ -197,11 +195,80 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(15.0),
           ),
           child: Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.all(10),
-            child: Text(
-              'Hello',
-              style: TextStyle(color: Colors.black, fontSize: 18),
+            padding: EdgeInsets.all(8),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.info_outline_rounded,
+                          size: 16,
+                          color: Colors.grey,
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              'Open Bids',
+                              style: TextStyle(
+                                color: Colors.green,
+                                fontSize: 10,
+                              ),
+                            ),
+                            Text(
+                              'Bid Time',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 10,
+                              ),
+                            ),
+                            Text(
+                              'Close Bids',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 10,
+                              ),
+                            ),
+                            Text(
+                              'Bid Time',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 10,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    child: Text(
+                      'Game Name',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Image.asset(
+                    'images/play_button.png',
+                    height: 30,
+                    width: 30,
+                  ),
+                )
+              ],
             ),
           ),
         );

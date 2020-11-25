@@ -46,30 +46,4 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: HomeScreen(),
     );
   }
-
-  Widget buildListOfGames() {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: 10,
-      itemBuilder: (BuildContext buildcontext, int index) {
-        return Card(
-          margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-          color: Colors.white,
-          shadowColor: Colors.white,
-          elevation: 10,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          child: Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.all(10),
-            child: Text(
-              'Hello',
-              style: TextStyle(color: Colors.black, fontSize: 18),
-            ),
-          ),
-        );
-      },
-    );
-  }
 }

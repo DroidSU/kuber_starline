@@ -266,7 +266,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       sharedPrefs.setString(Constants.SHARED_PREF_NAME, name);
       sharedPrefs.setString(Constants.SHARED_PREF_EMAIL, email);
       sharedPrefs.setString(Constants.SHARED_PREF_MOBILE_NUMBER, mobileNumber);
-      sharedPrefs.setBool(Constants.SHARED_PREF_MOBILE_NUMBER, true);
+      sharedPrefs.setString(
+          Constants.SHARED_PREF_AUTH_TOKEN, responseJSON.token);
+      sharedPrefs.setBool(Constants.SHARED_PREF_REGISTRATION_COMPLETE, true);
 
       Navigator.of(context).pushReplacement(new PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) =>

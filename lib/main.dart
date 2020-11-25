@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:kuber_starline/ui/RegisterScreen.dart';
+import 'package:kuber_starline/ui/SplashScreen.dart';
 
 void main() {
   HttpOverrides.global = new MyHttpOverrides();
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: RegisterScreen(),
+      home: SplashScreen(),
       // home: DashboardScreen(),
     );
   }

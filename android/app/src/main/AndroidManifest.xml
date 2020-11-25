@@ -9,7 +9,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="kuber_starline"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_kuber_launcher">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
