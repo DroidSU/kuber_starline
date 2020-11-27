@@ -1,4 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/src/response.dart';
+import 'package:kuber_starline/constants/project_constants.dart';
+import 'package:kuber_starline/network/HTTPService.dart';
+import 'package:kuber_starline/network/models/all_games_response_model.dart';
+import 'package:kuber_starline/network/models/game_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -7,6 +15,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isOpenDrawer = false;
+  bool _hasFetchedGames = false;
+  String authToken = "";
+
+  List<GameData> listOfGames = List();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchAuthToken();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,22 +68,22 @@ class _HomeScreenState extends State<HomeScreen> {
         Align(
           alignment: Alignment.topRight,
           child: Container(
-            margin: EdgeInsets.fromLTRB(10, 40, 60, 0),
+            margin: EdgeInsets.fromLTRB(10, 40, 45, 0),
             child: Icon(
               Icons.account_balance_wallet_rounded,
               color: Colors.white,
-              size: 26,
+              size: 22,
             ),
           ),
         ),
         Align(
           alignment: Alignment.topRight,
           child: Container(
-            margin: EdgeInsets.fromLTRB(10, 40, 20, 0),
+            margin: EdgeInsets.fromLTRB(10, 40, 10, 0),
             child: Icon(
               Icons.notification_important_rounded,
               color: Colors.white,
-              size: 26,
+              size: 22,
             ),
           ),
         ),
@@ -104,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         Container(
-          margin: EdgeInsets.fromLTRB(0, 140, 0, 0),
+          margin: EdgeInsets.fromLTRB(0, 130, 0, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -152,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Container(
                 alignment: Alignment.center,
-                margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -165,20 +184,26 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 15,
                     ),
                     Text(
-                      '7890127174',
+                      '**********',
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ],
                 ),
               ),
-              Container(
-                height: MediaQuery.of(context).size.height / 2,
-                margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                child: buildListOfGames(),
-              )
+              _hasFetchedGames
+                  ? Expanded(
+                      child: buildListOfGames(),
+                    )
+                  : Container(),
             ],
           ),
         ),
+        !_hasFetchedGames
+            ? Align(
+                alignment: Alignment.center,
+                child: CircularProgressIndicator(),
+              )
+            : Container(),
       ],
     );
   }
@@ -186,10 +211,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget buildListOfGames() {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: 10,
+      itemCount: listOfGames.length,
       itemBuilder: (BuildContext buildcontext, int index) {
         return Card(
-          margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
+          margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
           color: Colors.white,
           shadowColor: Colors.white,
           elevation: 10,
@@ -197,15 +222,108 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(15.0),
           ),
           child: Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.all(10),
-            child: Text(
-              'Hello',
-              style: TextStyle(color: Colors.black, fontSize: 18),
+            padding: EdgeInsets.all(8),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.info_outline_rounded,
+                          size: 16,
+                          color: Colors.grey,
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              'Open Bids',
+                              style: TextStyle(
+                                color: Colors.green,
+                                fontSize: 10,
+                              ),
+                            ),
+                            Text(
+                              listOfGames[index].slot2Time1,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 10,
+                              ),
+                            ),
+                            Text(
+                              'Close Bids',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 10,
+                              ),
+                            ),
+                            Text(
+                              listOfGames[index].slot2Time2,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 10,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    child: Text(
+                      listOfGames[index].gamename,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Image.asset(
+                    'images/play_button.png',
+                    height: 30,
+                    width: 30,
+                  ),
+                )
+              ],
             ),
           ),
         );
       },
     );
+  }
+
+  void displayGames(Response response) {
+    var responseJSON =
+        AllGamesResponseModel.fromJson(json.decode(response.body));
+
+    if (responseJSON.status) {
+      setState(() {
+        _hasFetchedGames = true;
+        listOfGames = responseJSON.data;
+      });
+    } else {}
+  }
+
+  void fetchAuthToken() async {
+    SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
+    authToken = sharedPrefs.getString(Constants.SHARED_PREF_AUTH_TOKEN);
+
+    HTTPService().fetchAllGames(authToken).then((response) => {
+          if (response.statusCode == 200)
+            {displayGames(response)}
+          else
+            {print(response.body)}
+        });
   }
 }

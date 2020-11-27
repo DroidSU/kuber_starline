@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kuber_starline/ui/ProfileScreen.dart';
+import 'package:kuber_starline/ui/SplashScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerScreen extends StatefulWidget {
   @override
@@ -14,35 +17,41 @@ class _DrawerScreenState extends State<DrawerScreen> {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            child: Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage('images/default_user.png'),
-                    backgroundColor: Colors.white,
-                    radius: 32,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'User name',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                      Text(
-                        'User Mobile Number',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                      Text(
-                        'App version',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                    ],
-                  )
-                ],
+            child: InkWell(
+              child: Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage('images/default_user.png'),
+                      backgroundColor: Colors.white,
+                      radius: 32,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'User name',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                        Text(
+                          'Mobile Number',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                        Text(
+                          'App version',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => ProfileScreen()));
+              },
             ),
             decoration: BoxDecoration(
               color: Colors.red,
@@ -258,7 +267,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
           Row(
             children: [
               RawMaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  logoutUser();
+                },
                 elevation: 2.0,
                 fillColor: Colors.lightBlueAccent,
                 child: Icon(
@@ -269,9 +280,14 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 padding: EdgeInsets.all(8.0),
                 shape: CircleBorder(),
               ),
-              Text(
-                'Logout',
-                style: TextStyle(color: Colors.black, fontSize: 18),
+              InkWell(
+                child: Text(
+                  'Logout',
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                ),
+                onTap: () {
+                  logoutUser();
+                },
               ),
             ],
           ),
@@ -281,5 +297,20 @@ class _DrawerScreenState extends State<DrawerScreen> {
         ],
       ),
     );
+  }
+
+  void logoutUser() async {
+    final sharedPrefs = await SharedPreferences.getInstance();
+    sharedPrefs.clear();
+
+    Navigator.of(context).pushReplacement(new PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => SplashScreen(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
+    ));
   }
 }

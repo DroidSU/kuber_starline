@@ -56,13 +56,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     style: TextStyle(color: Colors.grey, fontSize: 20),
                     children: <TextSpan>[
                       TextSpan(
-                          text: 'REGISTER FOR \n',
+                          text: 'REGISTER TO \n',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                               fontSize: 24)),
                       TextSpan(
-                        text: 'EARNING',
+                        text: 'EARN',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.red,
@@ -266,7 +266,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       sharedPrefs.setString(Constants.SHARED_PREF_NAME, name);
       sharedPrefs.setString(Constants.SHARED_PREF_EMAIL, email);
       sharedPrefs.setString(Constants.SHARED_PREF_MOBILE_NUMBER, mobileNumber);
-      sharedPrefs.setBool(Constants.SHARED_PREF_MOBILE_NUMBER, true);
+      sharedPrefs.setString(
+          Constants.SHARED_PREF_AUTH_TOKEN, responseJSON.token);
+      sharedPrefs.setBool(Constants.SHARED_PREF_REGISTRATION_COMPLETE, true);
 
       Navigator.of(context).pushReplacement(new PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) =>
