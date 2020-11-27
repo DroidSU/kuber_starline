@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/src/response.dart';
+import 'package:intl/intl.dart';
 import 'package:kuber_starline/constants/project_constants.dart';
 import 'package:kuber_starline/network/HTTPService.dart';
 import 'package:kuber_starline/network/models/all_games_response_model.dart';
 import 'package:kuber_starline/network/models/game_model.dart';
+import 'package:kuber_starline/ui/ChooseGameTimeScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String authToken = "";
 
   List<GameData> listOfGames = List();
+  DateFormat dateFormat = DateFormat("HH:mm");
 
   @override
   void initState() {
@@ -213,91 +216,120 @@ class _HomeScreenState extends State<HomeScreen> {
       shrinkWrap: true,
       itemCount: listOfGames.length,
       itemBuilder: (BuildContext buildcontext, int index) {
-        return Card(
-          margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
-          color: Colors.white,
-          shadowColor: Colors.white,
-          elevation: 10,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          child: Container(
-            padding: EdgeInsets.all(8),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    child: Row(
+        return InkWell(
+          child: Card(
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
+            color: Colors.white,
+            shadowColor: Colors.white,
+            elevation: 10,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            child: Container(
+              padding: EdgeInsets.all(8),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.info_outline_rounded,
+                            size: 16,
+                            color: Colors.grey,
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                'Open Bids',
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontSize: 10,
+                                ),
+                              ),
+                              Text(
+                                getFormattedDate(listOfGames[index].slot2Time1),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 10,
+                                ),
+                              ),
+                              Text(
+                                'Close Bids',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 10,
+                                ),
+                              ),
+                              Text(
+                                getFormattedDate(listOfGames[index].slot2Time2),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 10,
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.info_outline_rounded,
-                          size: 16,
-                          color: Colors.grey,
-                        ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              'Open Bids',
-                              style: TextStyle(
-                                color: Colors.green,
-                                fontSize: 10,
-                              ),
-                            ),
-                            Text(
-                              listOfGames[index].slot2Time1,
-                              style: TextStyle(
+                        Container(
+                          child: Text(
+                            listOfGames[index].gamename,
+                            style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 10,
-                              ),
-                            ),
-                            Text(
-                              'Close Bids',
-                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Container(
+                          child: Text(
+                            listOfGames[index].result1.substring(0, 3) +
+                                "-" +
+                                listOfGames[index].result1.substring(3, 4) +
+                                " " +
+                                listOfGames[index].result2.substring(0, 3) +
+                                "-" +
+                                listOfGames[index].result2.substring(3, 4),
+                            style: TextStyle(
                                 color: Colors.red,
-                                fontSize: 10,
-                              ),
-                            ),
-                            Text(
-                              listOfGames[index].slot2Time2,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 10,
-                              ),
-                            ),
-                          ],
-                        )
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    child: Text(
-                      listOfGames[index].gamename,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Image.asset(
+                      'images/play_button.png',
+                      height: 30,
+                      width: 30,
                     ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Image.asset(
-                    'images/play_button.png',
-                    height: 30,
-                    width: 30,
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ChooseGameTimeScreen(
+                      gameData: listOfGames[index],
+                    )));
+          },
         );
       },
     );
@@ -325,5 +357,14 @@ class _HomeScreenState extends State<HomeScreen> {
           else
             {print(response.body)}
         });
+  }
+
+  String getFormattedDate(String timeValue) {
+    DateTime dateTime = new DateFormat("HH:mm").parse(timeValue);
+
+    String hourString = dateTime.hour.toString();
+    String minsString = dateTime.minute.toString();
+
+    return "$hourString:$minsString";
   }
 }

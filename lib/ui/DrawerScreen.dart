@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kuber_starline/constants/project_constants.dart';
 import 'package:kuber_starline/ui/ProfileScreen.dart';
 import 'package:kuber_starline/ui/SplashScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,6 +10,17 @@ class DrawerScreen extends StatefulWidget {
 }
 
 class _DrawerScreenState extends State<DrawerScreen> {
+  String name;
+  String email;
+  String mobileNumber;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchUserDetails();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -32,12 +44,15 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'User name',
+                          name,
                           style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
                         Text(
-                          'Mobile Number',
+                          mobileNumber,
                           style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                        SizedBox(
+                          height: 5,
                         ),
                         Text(
                           'App version',
@@ -312,5 +327,15 @@ class _DrawerScreenState extends State<DrawerScreen> {
         );
       },
     ));
+  }
+
+  void fetchUserDetails() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      name = sharedPreferences.getString(Constants.SHARED_PREF_NAME);
+      mobileNumber =
+          sharedPreferences.getString(Constants.SHARED_PREF_MOBILE_NUMBER);
+      email = sharedPreferences.getString(Constants.SHARED_PREF_EMAIL);
+    });
   }
 }

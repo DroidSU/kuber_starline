@@ -30,7 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   http: ^0.12.2
   shared_preferences: ^0.5.12+4
-  flutter_launcher_icons: ^0.7.4
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:
