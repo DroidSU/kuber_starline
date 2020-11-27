@@ -10,7 +10,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
         child: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.red,
           appBar: AppBar(
             backgroundColor: Colors.red,
             automaticallyImplyLeading: true,
@@ -82,35 +82,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding: EdgeInsets.all(15),
                   child: Row(
                     children: [
-                      Image.asset(
-                        'images/ic_address.png',
-                        height: 30,
-                        width: 30,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'Add Bank Detail',
-                        style: TextStyle(color: Colors.black, fontSize: 18),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Card(
-                margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                elevation: 5,
-                color: Colors.white,
-                shadowColor: Colors.grey,
-                child: Container(
-                  padding: EdgeInsets.all(15),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'images/ic_address.png',
-                        height: 30,
-                        width: 30,
+                      CircleAvatar(
+                        child: Image.asset(
+                          'images/ic_address.png',
+                          height: 24,
+                          width: 24,
+                        ),
+                        backgroundColor: Colors.lightBlueAccent,
                       ),
                       SizedBox(
                         width: 10,
@@ -132,16 +110,103 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding: EdgeInsets.all(15),
                   child: Row(
                     children: [
-                      Image.asset(
-                        'images/ic_address.png',
-                        height: 30,
-                        width: 30,
+                      CircleAvatar(
+                        child: Image.asset(
+                          'images/ic_bank.png',
+                          height: 24,
+                          width: 24,
+                        ),
+                        backgroundColor: Colors.green,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Add Bank Detail',
+                        style: TextStyle(color: Colors.black, fontSize: 18),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Card(
+                margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                elevation: 5,
+                color: Colors.white,
+                shadowColor: Colors.grey,
+                child: Container(
+                  padding: EdgeInsets.all(15),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        child: Image.asset(
+                          'images/ic_paytm.png',
+                          height: 28,
+                          width: 28,
+                        ),
+                        backgroundColor: Colors.white,
                       ),
                       SizedBox(
                         width: 10,
                       ),
                       Text(
                         'Add Paytm Detail',
+                        style: TextStyle(color: Colors.black, fontSize: 18),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Card(
+                margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                elevation: 5,
+                color: Colors.white,
+                shadowColor: Colors.grey,
+                child: Container(
+                  padding: EdgeInsets.all(15),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        child: Image.asset(
+                          'images/ic_gpay.png',
+                          height: 28,
+                          width: 28,
+                        ),
+                        backgroundColor: Colors.white,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Add Google Pay Detail',
+                        style: TextStyle(color: Colors.black, fontSize: 18),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Card(
+                margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                elevation: 5,
+                color: Colors.white,
+                shadowColor: Colors.grey,
+                child: Container(
+                  padding: EdgeInsets.all(15),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        child: Image.asset(
+                          'images/ic_phonepe.png',
+                          height: 28,
+                          width: 28,
+                        ),
+                        backgroundColor: Colors.white,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Add PhonePe Detail',
                         style: TextStyle(color: Colors.black, fontSize: 18),
                       )
                     ],

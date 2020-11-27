@@ -23,7 +23,43 @@ class HTTPService {
               "Mobile": mobileNumber,
             }));
 
-    print(response.body);
+    print('Register response: ${response.body}');
+    return response;
+  }
+
+  Future<http.Response> loginUser({
+    String mobileNumber,
+    String password,
+  }) async {
+    http.Response response =
+        await http.post(Uri.encodeFull(APIConstants.ENDPOINT_LOGIN),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'X-ApiKey': '8f92cb92-c007-448b-b488-1650492dfd00',
+              'Authorization': 'Basic S3ViZXJTYXR0YTpLdWJlclNhdHRhQDEyMzQ1',
+              'A-Token': ''
+            },
+            body: jsonEncode({
+              "Mobile": mobileNumber,
+              "password": password,
+            }));
+
+    print('Login response: ${response.body}');
+    return response;
+  }
+
+  Future<http.Response> fetchAllGames(String authToken) async {
+    http.Response response = await http.post(
+      Uri.encodeFull(APIConstants.ENDPOINT_FETCH_ALL_GAMES),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'X-ApiKey': '8f92cb92-c007-448b-b488-1650492dfd00',
+        'Authorization': 'Basic S3ViZXJTYXR0YTpLdWJlclNhdHRhQDEyMzQ1',
+        'A-Token': authToken
+      },
+    );
+
+    print('All games response: ${response.body}');
     return response;
   }
 }

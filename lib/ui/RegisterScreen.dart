@@ -56,13 +56,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     style: TextStyle(color: Colors.grey, fontSize: 20),
                     children: <TextSpan>[
                       TextSpan(
-                          text: 'REGISTER FOR \n',
+                          text: 'REGISTER TO \n',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                               fontSize: 24)),
                       TextSpan(
-                        text: 'EARNING',
+                        text: 'EARN',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.red,
