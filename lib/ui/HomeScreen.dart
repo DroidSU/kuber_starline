@@ -7,6 +7,8 @@ import 'package:kuber_starline/constants/project_constants.dart';
 import 'package:kuber_starline/network/HTTPService.dart';
 import 'package:kuber_starline/network/models/all_games_response_model.dart';
 import 'package:kuber_starline/network/models/game_model.dart';
+import 'package:kuber_starline/network/models/get_wallet_response_model.dart';
+import 'package:kuber_starline/network/models/wallet_model.dart';
 import 'package:kuber_starline/ui/ChooseGameTimeScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String authToken = "";
 
   List<GameData> listOfGames = List();
-  DateFormat dateFormat = DateFormat("HH:mm");
+  WalletData _walletData;
 
   @override
   void initState() {
@@ -71,12 +73,24 @@ class _HomeScreenState extends State<HomeScreen> {
         Align(
           alignment: Alignment.topRight,
           child: Container(
-            margin: EdgeInsets.fromLTRB(10, 40, 45, 0),
+            margin: EdgeInsets.fromLTRB(10, 40, 80, 0),
             child: Icon(
               Icons.account_balance_wallet_rounded,
               color: Colors.white,
-              size: 22,
+              size: 20,
             ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.topRight,
+          child: Container(
+            child: Text(
+              _walletData != null
+                  ? '\u{20B9} ${_walletData.balance}'
+                  : "\u{20B9} 0",
+              style: TextStyle(color: Colors.white, fontSize: 16),
+            ),
+            margin: EdgeInsets.fromLTRB(10, 40, 55, 0),
           ),
         ),
         Align(
@@ -357,6 +371,13 @@ class _HomeScreenState extends State<HomeScreen> {
           else
             {print(response.body)}
         });
+
+    HTTPService().getWalletDetails(authToken).then((response) => {
+          if (response.statusCode == 200)
+            {showWalletData(response)}
+          else
+            {print('Wallet balance could not be fetched')}
+        });
   }
 
   String getFormattedDate(String timeValue) {
@@ -366,5 +387,18 @@ class _HomeScreenState extends State<HomeScreen> {
     String minsString = dateTime.minute.toString();
 
     return "$hourString:$minsString";
+  }
+
+  void showWalletData(Response response) {
+    var walletResponseJSON =
+        GetWalletBalanceResponseModel.fromJson(json.decode(response.body));
+
+    if (walletResponseJSON.status) {
+      setState(() {
+        _walletData = walletResponseJSON.data;
+      });
+    } else {
+      print(response.body);
+    }
   }
 }

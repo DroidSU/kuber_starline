@@ -62,4 +62,37 @@ class HTTPService {
     print('All games response: ${response.body}');
     return response;
   }
+
+  Future<http.Response> changePassword(
+      String authToken, String password) async {
+    http.Response response =
+        await http.post(Uri.encodeFull(APIConstants.ENDPOINT_CHANGE_PASSWORD),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'X-ApiKey': '8f92cb92-c007-448b-b488-1650492dfd00',
+              'Authorization': 'Basic S3ViZXJTYXR0YTpLdWJlclNhdHRhQDEyMzQ1',
+              'A-Token': authToken
+            },
+            body: jsonEncode({
+              "password": password,
+            }));
+
+    print('Change Password Response: ${response.body}');
+    return response;
+  }
+
+  Future<http.Response> getWalletDetails(String authToken) async {
+    http.Response response = await http.get(
+      Uri.encodeFull(APIConstants.ENDPOINT_GET_WALLET_DETAILS),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'X-ApiKey': '8f92cb92-c007-448b-b488-1650492dfd00',
+        'Authorization': 'Basic S3ViZXJTYXR0YTpLdWJlclNhdHRhQDEyMzQ1',
+        'A-Token': authToken
+      },
+    );
+
+    print('Wallet details: ${response.body}');
+    return response;
+  }
 }

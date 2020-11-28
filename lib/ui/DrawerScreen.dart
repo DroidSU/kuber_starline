@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kuber_starline/constants/project_constants.dart';
 import 'package:kuber_starline/ui/ProfileScreen.dart';
+import 'package:kuber_starline/ui/SettingsScreen.dart';
 import 'package:kuber_starline/ui/SplashScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -44,11 +45,11 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          name,
+                          name == null ? "" : name,
                           style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
                         Text(
-                          mobileNumber,
+                          mobileNumber == null ? "" : mobileNumber,
                           style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
                         SizedBox(
@@ -259,7 +260,10 @@ class _DrawerScreenState extends State<DrawerScreen> {
           Row(
             children: [
               RawMaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => SettingsScreen()));
+                },
                 elevation: 2.0,
                 fillColor: Colors.blueAccent,
                 child: Icon(
@@ -270,9 +274,15 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 padding: EdgeInsets.all(8.0),
                 shape: CircleBorder(),
               ),
-              Text(
-                'Settings',
-                style: TextStyle(color: Colors.black, fontSize: 18),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => SettingsScreen()));
+                },
+                child: Text(
+                  'Settings',
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                ),
               ),
             ],
           ),
