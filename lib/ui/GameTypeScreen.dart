@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:kuber_starline/network/models/game_model.dart';
+import 'package:kuber_starline/ui/SingleGameScreen.dart';
 
 class GameTypeScreen extends StatefulWidget {
-  String gameName;
-  String gameId;
+  GameData gameData;
 
-  GameTypeScreen({this.gameName, this.gameId});
+  GameTypeScreen({this.gameData});
 
   @override
   _GameTypeScreenState createState() => _GameTypeScreenState();
 }
 
 class _GameTypeScreenState extends State<GameTypeScreen> {
-  String gameName;
-  String gameId;
+  GameData gameData;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    gameName = widget.gameName;
-    gameId = widget.gameId;
+    gameData = widget.gameData;
   }
 
   @override
@@ -60,7 +59,7 @@ class _GameTypeScreenState extends State<GameTypeScreen> {
                 child: Container(
                   margin: EdgeInsets.fromLTRB(0, 40, 0, 0),
                   child: Text(
-                    gameName,
+                    gameData.gamename,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -95,23 +94,32 @@ class _GameTypeScreenState extends State<GameTypeScreen> {
                         //   ],
                         //   color: Colors.transparent,
                         // ),
-                        child: Column(
-                          children: [
-                            Image.asset(
-                              'images/teen_patti_image.png',
-                              height: 100,
-                              width: 100,
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              'Single',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
-                            ),
-                          ],
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: InkWell(
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                'images/teen_patti_image.png',
+                                height: 100,
+                                width: 100,
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                'Single',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                            ],
+                            mainAxisAlignment: MainAxisAlignment.center,
+                          ),
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(
+                                    builder: (context) => SingleGameScreen(
+                                          gameData: gameData,
+                                        )));
+                          },
                         ),
                       ),
                       Container(

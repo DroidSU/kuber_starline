@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/src/response.dart';
-import 'package:intl/intl.dart';
 import 'package:kuber_starline/constants/project_constants.dart';
+import 'package:kuber_starline/customs/utility_methods.dart';
 import 'package:kuber_starline/network/HTTPService.dart';
 import 'package:kuber_starline/network/models/all_games_response_model.dart';
 import 'package:kuber_starline/network/models/game_model.dart';
@@ -267,7 +267,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               Text(
-                                getFormattedDate(listOfGames[index].slot2Time1),
+                                UtilityMethodsManager().beautifyTime(
+                                    listOfGames[index].slot2Time1),
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 10,
@@ -281,7 +282,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               Text(
-                                getFormattedDate(listOfGames[index].slot2Time2),
+                                UtilityMethodsManager().beautifyTime(
+                                    listOfGames[index].slot2Time2),
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 10,
@@ -380,25 +382,22 @@ class _HomeScreenState extends State<HomeScreen> {
         });
   }
 
-  String getFormattedDate(String timeValue) {
-    DateTime dateTime = new DateFormat("HH:mm").parse(timeValue);
-
-    String hourString = dateTime.hour.toString();
-    String minsString = dateTime.minute.toString();
-
-    return "$hourString:$minsString";
-  }
-
   void showWalletData(Response response) {
     var walletResponseJSON =
         GetWalletBalanceResponseModel.fromJson(json.decode(response.body));
 
     if (walletResponseJSON.status) {
+      storeWalletBalance(walletResponseJSON.data.balance);
       setState(() {
         _walletData = walletResponseJSON.data;
       });
     } else {
       print(response.body);
     }
+  }
+
+  void storeWalletBalance(String walletBalance) async {
+    SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
+    sharedPrefs.setString(Constants.SHARED_PREF_WALLET_BALANCE, walletBalance);
   }
 }

@@ -5,4 +5,5 @@ class Constants {
   static const String SHARED_PREF_MOBILE_NUMBER = "mobile_number";
   static const String SHARED_PREF_AUTH_TOKEN = "user_auth_token";
   static const String SHARED_PREF_REGISTRATION_COMPLETE = "user_registered";
+  static const String SHARED_PREF_WALLET_BALANCE = "wallet_balance";
 }
