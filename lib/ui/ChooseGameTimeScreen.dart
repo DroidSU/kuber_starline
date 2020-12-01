@@ -130,6 +130,11 @@ class _ChooseGameTimeScreenState extends State<ChooseGameTimeScreen> {
                                                   builder: (context) =>
                                                       GameTypeScreen(
                                                         gameData: gameData,
+                                                        selectedTime:
+                                                            UtilityMethodsManager()
+                                                                .beautifyTime(
+                                                                    gameData
+                                                                        .slot2Time1),
                                                       )));
                                         },
                                       ))
@@ -211,6 +216,11 @@ class _ChooseGameTimeScreenState extends State<ChooseGameTimeScreen> {
                                                   builder: (context) =>
                                                       GameTypeScreen(
                                                         gameData: gameData,
+                                                        selectedTime:
+                                                            UtilityMethodsManager()
+                                                                .beautifyTime(
+                                                                    gameData
+                                                                        .slot2Time2),
                                                       )));
                                         },
                                       ))

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
-  int boxValue;
+  final int boxValue;
+  final Function(String) onAmountValueChanged;
 
-  CustomTextField({@required this.boxValue});
+  CustomTextField({@required this.boxValue, this.onAmountValueChanged});
 
   @override
   _CustomTextFieldState createState() => _CustomTextFieldState();
@@ -12,11 +13,26 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   int boxValue;
 
+  String amountPlaced;
+  TextEditingController textEditingController;
+
+  Function(String) onValueChanged;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     boxValue = widget.boxValue;
+    onValueChanged = widget.onAmountValueChanged;
+
+    textEditingController = new TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    textEditingController.dispose();
   }
 
   @override
@@ -40,9 +56,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
           height: 30,
           width: 60,
           child: TextField(
+            controller: textEditingController,
             style: TextStyle(color: Colors.black, fontSize: 16),
             textAlign: TextAlign.center,
             keyboardType: TextInputType.number,
+            maxLines: 1,
+            onChanged: (value) {
+              if (value.isEmpty) value = '0';
+              onValueChanged(value);
+            },
           ),
         ),
       ],

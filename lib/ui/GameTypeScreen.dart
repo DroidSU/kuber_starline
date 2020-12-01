@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:kuber_starline/network/models/game_model.dart';
 import 'package:kuber_starline/ui/SingleGameScreen.dart';
+import 'package:kuber_starline/ui/SinglePannaGameScreen.dart';
 
 class GameTypeScreen extends StatefulWidget {
-  GameData gameData;
+  final GameData gameData;
+  final String selectedTime;
 
-  GameTypeScreen({this.gameData});
+  GameTypeScreen({@required this.gameData, @required this.selectedTime});
 
   @override
   _GameTypeScreenState createState() => _GameTypeScreenState();
@@ -13,12 +15,14 @@ class GameTypeScreen extends StatefulWidget {
 
 class _GameTypeScreenState extends State<GameTypeScreen> {
   GameData gameData;
+  String selectedTime;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     gameData = widget.gameData;
+    selectedTime = widget.selectedTime;
   }
 
   @override
@@ -80,25 +84,11 @@ class _GameTypeScreenState extends State<GameTypeScreen> {
                     children: <Widget>[
                       Container(
                         color: Colors.transparent,
-                        // decoration: new BoxDecoration(
-                        //   boxShadow: [
-                        //     BoxShadow(
-                        //       color: Colors.black45,
-                        //       blurRadius: 10.0, // soften the shadow
-                        //       spreadRadius: 2.0, //extend the shadow
-                        //       // offset: Offset(
-                        //       //   10.0, // Move to right 10  horizontally
-                        //       //   15.0, // Move to bottom 10 Vertically
-                        //       // ),
-                        //     ),
-                        //   ],
-                        //   color: Colors.transparent,
-                        // ),
                         child: InkWell(
                           child: Column(
                             children: [
                               Image.asset(
-                                'images/teen_patti_image.png',
+                                'images/ic_single.png',
                                 height: 100,
                                 width: 100,
                               ),
@@ -118,65 +108,50 @@ class _GameTypeScreenState extends State<GameTypeScreen> {
                                 .pushReplacement(MaterialPageRoute(
                                     builder: (context) => SingleGameScreen(
                                           gameData: gameData,
+                                          gameType: "Single",
+                                          gameTime: selectedTime,
                                         )));
                           },
                         ),
                       ),
                       Container(
-                        color: Colors.transparent,
-                        // decoration: new BoxDecoration(
-                        //   boxShadow: [
-                        //     BoxShadow(
-                        //       color: Colors.black45,
-                        //       blurRadius: 10.0, // soften the shadow
-                        //       spreadRadius: 2.0, //extend the shadow
-                        //       // offset: Offset(
-                        //       //   10.0, // Move to right 10  horizontally
-                        //       //   15.0, // Move to bottom 10 Vertically
-                        //       // ),
-                        //     ),
-                        //   ],
-                        //   color: Colors.transparent,
-                        // ),
-                        child: Column(
-                          children: [
-                            Image.asset(
-                              'images/teen_patti_image.png',
-                              height: 100,
-                              width: 100,
+                          color: Colors.transparent,
+                          child: InkWell(
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  'images/ic_one_patti.png',
+                                  height: 100,
+                                  width: 100,
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  'Single Panna',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              ],
+                              mainAxisAlignment: MainAxisAlignment.center,
                             ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              'Single Panna',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
-                            ),
-                          ],
-                          mainAxisAlignment: MainAxisAlignment.center,
-                        ),
-                      ),
+                            onTap: () {
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          SinglePannaGameScreen(
+                                            gameData: gameData,
+                                            gameType: "Single Panna",
+                                            gameTime: selectedTime,
+                                          )));
+                            },
+                          )),
                       Container(
                         color: Colors.transparent,
-                        // decoration: new BoxDecoration(
-                        //   boxShadow: [
-                        //     BoxShadow(
-                        //       color: Colors.black45,
-                        //       blurRadius: 10.0, // soften the shadow
-                        //       spreadRadius: 2.0, //extend the shadow
-                        //       // offset: Offset(
-                        //       //   10.0, // Move to right 10  horizontally
-                        //       //   15.0, // Move to bottom 10 Vertically
-                        //       // ),
-                        //     ),
-                        //   ],
-                        //   color: Colors.transparent,
-                        // ),
                         child: Column(
                           children: [
                             Image.asset(
-                              'images/teen_patti_image.png',
+                              'images/ic_two_patti.png',
                               height: 100,
                               width: 100,
                             ),
@@ -194,24 +169,10 @@ class _GameTypeScreenState extends State<GameTypeScreen> {
                       ),
                       Container(
                         color: Colors.transparent,
-                        // decoration: new BoxDecoration(
-                        //   boxShadow: [
-                        //     BoxShadow(
-                        //       color: Colors.black45,
-                        //       blurRadius: 10.0, // soften the shadow
-                        //       spreadRadius: 2.0, //extend the shadow
-                        //       // offset: Offset(
-                        //       //   10.0, // Move to right 10  horizontally
-                        //       //   15.0, // Move to bottom 10 Vertically
-                        //       // ),
-                        //     ),
-                        //   ],
-                        //   color: Colors.transparent,
-                        // ),
                         child: Column(
                           children: [
                             Image.asset(
-                              'images/teen_patti_image.png',
+                              'images/ic_three_patti.png',
                               height: 100,
                               width: 100,
                             ),

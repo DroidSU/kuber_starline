@@ -5,9 +5,14 @@ import 'package:kuber_starline/network/models/game_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SingleGameScreen extends StatefulWidget {
-  GameData gameData;
+  final GameData gameData;
+  final String gameType;
+  final String gameTime;
 
-  SingleGameScreen({this.gameData});
+  SingleGameScreen(
+      {@required this.gameData,
+      @required this.gameType,
+      @required this.gameTime});
 
   @override
   _SingleGameScreenState createState() => _SingleGameScreenState();
@@ -18,21 +23,37 @@ class _SingleGameScreenState extends State<SingleGameScreen> {
   String authToken = "";
   GameData gameData;
   List<int> listOfNumbers = List();
+  String gameType;
+  String gameTime;
+
+  Map<int, int> valueMap = Map();
+
   int totalPoints = 0;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     gameData = widget.gameData;
+    gameType = widget.gameType;
+    gameTime = widget.gameTime;
+
     fetchUserDetails();
+
     listOfNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+    if (valueMap.isEmpty) {
+      for (int i = 0; i < 10; i++) {
+        valueMap[i] = 0;
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           backgroundColor: Colors.white,
           body: Stack(
             children: [
@@ -63,11 +84,11 @@ class _SingleGameScreenState extends State<SingleGameScreen> {
                 ),
               ),
               Align(
-                alignment: Alignment.topRight,
+                alignment: Alignment.topLeft,
                 child: Container(
-                  margin: EdgeInsets.fromLTRB(0, 100, 40, 0),
+                  margin: EdgeInsets.fromLTRB(20, 100, 0, 0),
                   child: Text(
-                    'Total Points: ',
+                    gameType,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -76,15 +97,46 @@ class _SingleGameScreenState extends State<SingleGameScreen> {
                 ),
               ),
               Align(
-                alignment: Alignment.topRight,
+                alignment: Alignment.topCenter,
                 child: Container(
-                  margin: EdgeInsets.fromLTRB(0, 100, 8, 0),
+                  margin: EdgeInsets.fromLTRB(0, 160, 0, 0),
+                  child: Text(
+                    'Total Points: ',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(130, 160, 0, 0),
                   child: Text(
                     totalPoints.toString(),
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(0, 90, 10, 0),
+                  child: ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.lock_clock,
+                      color: Colors.red,
+                    ),
+                    label: Text(
+                      gameTime,
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    style: ElevatedButton.styleFrom(primary: Colors.white),
                   ),
                 ),
               ),
@@ -114,7 +166,21 @@ class _SingleGameScreenState extends State<SingleGameScreen> {
                           crossAxisSpacing: 20,
                           mainAxisSpacing: 15),
                       itemBuilder: (BuildContext buildcontext, index) {
-                        return CustomTextField(boxValue: listOfNumbers[index]);
+                        return CustomTextField(
+                          boxValue: listOfNumbers[index],
+                          onAmountValueChanged: (value) {
+                            valueMap[index] = int.parse(value);
+                            int currentPoint = 0;
+
+                            for (int i = 0; i < valueMap.length; i++) {
+                              currentPoint += valueMap[i];
+                            }
+
+                            setState(() {
+                              totalPoints = currentPoint;
+                            });
+                          },
+                        );
                       }),
                 ),
               ),
