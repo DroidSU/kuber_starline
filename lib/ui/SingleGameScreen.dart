@@ -195,7 +195,9 @@ class _SingleGameScreenState extends State<SingleGameScreen> {
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                     color: Colors.red,
-                    onPressed: () {},
+                    onPressed: () {
+                      onSubmitClicked();
+                    },
                   ),
                 ),
               )
@@ -217,4 +219,6 @@ class _SingleGameScreenState extends State<SingleGameScreen> {
 
     return true;
   }
+
+  void onSubmitClicked() {}
 }

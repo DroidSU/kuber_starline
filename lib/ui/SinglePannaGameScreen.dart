@@ -1,6 +1,8 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:kuber_starline/constants/project_constants.dart';
-import 'package:kuber_starline/customs/custom_inc_dec_textfield.dart';
+import 'package:kuber_starline/customs/custom_game_box.dart';
 import 'package:kuber_starline/network/models/game_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,10 +29,18 @@ class _SinglePannaGameScreenState extends State<SinglePannaGameScreen> {
 
   int totalPoints = 0;
 
+  List<int> zeroSeriesNumber = List();
   List<int> oneSeriesNumbers = List();
   List<int> twoSeriesNumbers = List();
   List<int> threeSeriesNumbers = List();
   List<int> fourSeriesNumbers = List();
+  List<int> fiveSeriesNumbers = List();
+  List<int> sixSeriesNumbers = List();
+  List<int> sevenSeriesNumbers = List();
+  List<int> eightSeriesNumbers = List();
+  List<int> nineSeriesNumbers = List();
+
+  HashMap<int, List> hashMap = HashMap();
 
   @override
   void initState() {
@@ -41,6 +51,21 @@ class _SinglePannaGameScreenState extends State<SinglePannaGameScreen> {
     gameTime = widget.gameTime;
 
     getUserDetails();
+
+    zeroSeriesNumber = [
+      127,
+      136,
+      145,
+      190,
+      235,
+      280,
+      370,
+      479,
+      460,
+      569,
+      389,
+      578
+    ];
 
     oneSeriesNumbers = [
       128,
@@ -101,6 +126,118 @@ class _SinglePannaGameScreenState extends State<SinglePannaGameScreen> {
       680,
       789
     ];
+
+    fiveSeriesNumbers = [
+      159,
+      168,
+      230,
+      249,
+      258,
+      140,
+      267,
+      348,
+      357,
+      456,
+      690,
+      780
+    ];
+
+    sixSeriesNumbers = [
+      123,
+      150,
+      169,
+      178,
+      240,
+      259,
+      268,
+      349,
+      358,
+      457,
+      367,
+      790
+    ];
+
+    sevenSeriesNumbers = [
+      124,
+      160,
+      179,
+      250,
+      269,
+      278,
+      340,
+      359,
+      368,
+      458,
+      467,
+      890
+    ];
+
+    eightSeriesNumbers = [
+      125,
+      134,
+      170,
+      189,
+      260,
+      279,
+      350,
+      369,
+      378,
+      459,
+      567,
+      468
+    ];
+
+    nineSeriesNumbers = [
+      126,
+      135,
+      180,
+      234,
+      270,
+      289,
+      360,
+      379,
+      450,
+      469,
+      478,
+      568
+    ];
+
+    if (hashMap.isEmpty) {
+      for (int i = 0; i < 10; i++) {
+        switch (i) {
+          case 0:
+            hashMap[i] = zeroSeriesNumber;
+            break;
+          case 1:
+            hashMap[i] = oneSeriesNumbers;
+            break;
+          case 2:
+            hashMap[i] = twoSeriesNumbers;
+            break;
+          case 3:
+            hashMap[i] = threeSeriesNumbers;
+            break;
+          case 4:
+            hashMap[i] = fourSeriesNumbers;
+            break;
+          case 5:
+            hashMap[i] = fiveSeriesNumbers;
+            break;
+          case 6:
+            hashMap[i] = sixSeriesNumbers;
+            break;
+          case 7:
+            hashMap[i] = sevenSeriesNumbers;
+            break;
+          case 8:
+            hashMap[i] = eightSeriesNumbers;
+            break;
+          case 9:
+            hashMap[i] = nineSeriesNumbers;
+            break;
+        }
+      }
+    }
   }
 
   @override
@@ -213,175 +350,36 @@ class _SinglePannaGameScreenState extends State<SinglePannaGameScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            alignment: Alignment.center,
-                            color: Colors.transparent,
-                            child: Text(
-                              '1\'s series',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 24),
-                            ),
-                          ),
-                          GridView.builder(
-                              itemCount: oneSeriesNumbers.length,
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  SliverGridDelegateWithMaxCrossAxisExtent(
-                                      maxCrossAxisExtent: 100,
-                                      childAspectRatio: 4 / 2,
-                                      crossAxisSpacing: 20,
-                                      mainAxisSpacing: 15),
-                              itemBuilder: (BuildContext buildcontext, index) {
-                                return CustomTextField(
-                                  boxValue: oneSeriesNumbers[index],
-                                  onAmountValueChanged: (value) {
-                                    // valueMap[index] = int.parse(value);
-                                    // int currentPoint = 0;
-                                    //
-                                    // for (int i = 0; i < valueMap.length; i++) {
-                                    //   currentPoint += valueMap[i];
-                                    // }
-                                    //
-                                    // setState(() {
-                                    //   totalPoints = currentPoint;
-                                    // });
-                                  },
-                                );
-                              }),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            alignment: Alignment.center,
-                            color: Colors.transparent,
-                            child: Text(
-                              '2\'s series',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 24),
-                            ),
-                          ),
-                          GridView.builder(
-                              itemCount: twoSeriesNumbers.length,
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  SliverGridDelegateWithMaxCrossAxisExtent(
-                                      maxCrossAxisExtent: 100,
-                                      childAspectRatio: 4 / 2,
-                                      crossAxisSpacing: 20,
-                                      mainAxisSpacing: 15),
-                              itemBuilder: (BuildContext buildcontext, index) {
-                                return CustomTextField(
-                                  boxValue: twoSeriesNumbers[index],
-                                  onAmountValueChanged: (value) {
-                                    // valueMap[index] = int.parse(value);
-                                    // int currentPoint = 0;
-                                    //
-                                    // for (int i = 0; i < valueMap.length; i++) {
-                                    //   currentPoint += valueMap[i];
-                                    // }
-                                    //
-                                    // setState(() {
-                                    //   totalPoints = currentPoint;
-                                    // });
-                                  },
-                                );
-                              }),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            alignment: Alignment.center,
-                            color: Colors.transparent,
-                            child: Text(
-                              '3\'s series',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 24),
-                            ),
-                          ),
-                          GridView.builder(
-                              itemCount: threeSeriesNumbers.length,
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  SliverGridDelegateWithMaxCrossAxisExtent(
-                                      maxCrossAxisExtent: 100,
-                                      childAspectRatio: 4 / 2,
-                                      crossAxisSpacing: 20,
-                                      mainAxisSpacing: 15),
-                              itemBuilder: (BuildContext buildcontext, index) {
-                                return CustomTextField(
-                                  boxValue: threeSeriesNumbers[index],
-                                  onAmountValueChanged: (value) {
-                                    // valueMap[index] = int.parse(value);
-                                    // int currentPoint = 0;
-                                    //
-                                    // for (int i = 0; i < valueMap.length; i++) {
-                                    //   currentPoint += valueMap[i];
-                                    // }
-                                    //
-                                    // setState(() {
-                                    //   totalPoints = currentPoint;
-                                    // });
-                                  },
-                                );
-                              }),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            alignment: Alignment.center,
-                            color: Colors.transparent,
-                            child: Text(
-                              '4\'s series',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 24),
-                            ),
-                          ),
-                          GridView.builder(
-                              itemCount: fourSeriesNumbers.length,
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  SliverGridDelegateWithMaxCrossAxisExtent(
-                                      maxCrossAxisExtent: 100,
-                                      childAspectRatio: 4 / 2,
-                                      crossAxisSpacing: 20,
-                                      mainAxisSpacing: 15),
-                              itemBuilder: (BuildContext buildcontext, index) {
-                                return CustomTextField(
-                                  boxValue: fourSeriesNumbers[index],
-                                  onAmountValueChanged: (value) {
-                                    // valueMap[index] = int.parse(value);
-                                    // int currentPoint = 0;
-                                    //
-                                    // for (int i = 0; i < valueMap.length; i++) {
-                                    //   currentPoint += valueMap[i];
-                                    // }
-                                    //
-                                    // setState(() {
-                                    //   totalPoints = currentPoint;
-                                    // });
-                                  },
-                                );
-                              }),
-                        ],
-                      ),
+                      CustomGameBox(
+                          seriesName: '0\'s Series',
+                          listOfNumbers: zeroSeriesNumber),
+                      CustomGameBox(
+                          seriesName: '1\'s Series',
+                          listOfNumbers: oneSeriesNumbers),
+                      CustomGameBox(
+                          seriesName: '2\'s Series',
+                          listOfNumbers: twoSeriesNumbers),
+                      CustomGameBox(
+                          seriesName: '3\'s Series',
+                          listOfNumbers: threeSeriesNumbers),
+                      CustomGameBox(
+                          seriesName: '4\'s Series',
+                          listOfNumbers: fourSeriesNumbers),
+                      CustomGameBox(
+                          seriesName: '5\'s Series',
+                          listOfNumbers: fiveSeriesNumbers),
+                      CustomGameBox(
+                          seriesName: '6\'s Series',
+                          listOfNumbers: sixSeriesNumbers),
+                      CustomGameBox(
+                          seriesName: '7\'s Series',
+                          listOfNumbers: sevenSeriesNumbers),
+                      CustomGameBox(
+                          seriesName: '8\'s Series',
+                          listOfNumbers: eightSeriesNumbers),
+                      CustomGameBox(
+                          seriesName: '9\'s Series',
+                          listOfNumbers: nineSeriesNumbers),
                     ],
                   ),
                 ),

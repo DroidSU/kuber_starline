@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kuber_starline/network/models/game_model.dart';
 import 'package:kuber_starline/ui/SingleGameScreen.dart';
 import 'package:kuber_starline/ui/SinglePannaGameScreen.dart';
+import 'package:kuber_starline/ui/TriplePannaGameScreen.dart';
 
 class GameTypeScreen extends StatefulWidget {
   final GameData gameData;
@@ -147,47 +148,60 @@ class _GameTypeScreenState extends State<GameTypeScreen> {
                             },
                           )),
                       Container(
-                        color: Colors.transparent,
-                        child: Column(
-                          children: [
-                            Image.asset(
-                              'images/ic_two_patti.png',
-                              height: 100,
-                              width: 100,
+                          color: Colors.transparent,
+                          child: InkWell(
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  'images/ic_two_patti.png',
+                                  height: 100,
+                                  width: 100,
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  'Double Panna',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              ],
+                              mainAxisAlignment: MainAxisAlignment.center,
                             ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              'Double Panna',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
-                            ),
-                          ],
-                          mainAxisAlignment: MainAxisAlignment.center,
-                        ),
-                      ),
+                            onTap: () {},
+                          )),
                       Container(
-                        color: Colors.transparent,
-                        child: Column(
-                          children: [
-                            Image.asset(
-                              'images/ic_three_patti.png',
-                              height: 100,
-                              width: 100,
+                          color: Colors.transparent,
+                          child: InkWell(
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  'images/ic_three_patti.png',
+                                  height: 100,
+                                  width: 100,
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  'Triple Panna',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              ],
+                              mainAxisAlignment: MainAxisAlignment.center,
                             ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              'Triple Panna',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
-                            ),
-                          ],
-                          mainAxisAlignment: MainAxisAlignment.center,
-                        ),
-                      ),
+                            onTap: () {
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          TriplePannaGameScreen(
+                                            gameData: gameData,
+                                            gameType: "Triple Panna",
+                                            gameTime: selectedTime,
+                                          )));
+                            },
+                          )),
                     ],
                   ),
                 ),

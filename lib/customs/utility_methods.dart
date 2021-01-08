@@ -49,7 +49,6 @@ class UtilityMethodsManager {
 
     int difference = dateTimeNow.difference(inputTime).inMinutes;
 
-    print(difference);
     if (difference < -20)
       return true;
     else
